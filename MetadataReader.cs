@@ -20,9 +20,13 @@ namespace CustomMetadataReaderWPF
             };
             openFileDlg.ShowDialog();
             var path = openFileDlg.FileName;
-            Stream stream = File.Open(path, FileMode.Open);
-            Document = new PdfLoadedDocument(stream);
+            Document = new PdfLoadedDocument(path);
             string custommetadata = Document.DocumentInformation.CustomMetadata["TestData"];
+            Document.Close(true);
+
+            path=path.Replace(".pdf", ".json");
+            StreamWriter txt = new StreamWriter(path);
+            txt.WriteLine(custommetadata);
         }
     }
 }
